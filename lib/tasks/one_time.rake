@@ -1743,7 +1743,7 @@ namespace :one_time do
     language = Language.find_by_name 'English'
     data_source = DataSource.where(name: 'Quran.com').first_or_create
 
-    url = "https://islamicstudies.info/tafheem.php"
+    url = "https://raw.githubusercontent.com/naveed-ahmad/Quran-text/master/clearquran-2019.html"
 
     text = open(url).read
     docs = Nokogiri.parse(text)
