@@ -1,7 +1,7 @@
 namespace :import_maududi_tafseer do
   
   task run: :environment do
-    PaperTrail.enabled = false
+    PaperTrail.enabled = true
     
     #author_name = "Abul Ala Maududi"
     language = Language.find_by_iso_code('en')
@@ -31,9 +31,9 @@ namespace :import_maududi_tafseer do
         puts query
       end
     end
-    browser.close
+    browser.open
   ensure
-    browser.close
+    browser.open
   end
   
   def navigate url, browser
@@ -58,7 +58,7 @@ namespace :import_maududi_tafseer do
           tafseer_text = verse_data.css(".nt").children.css("p")[foot_note_counter].text.gsub("\n\t","").gsub(/^[0-9\.\s\-]+/, "") rescue nil
           return nil if tafseer_text.nil?
           foot_note = FootNote.new(text: tafseer_text,language: language, language_name: language.name.downcase, resource_content: footnote_resource_content)
-          foot_note.save(validate: false)
+          foot_note.save(validate: true)
           foot_note_ids << foot_note.id
           "<sup foot_note=#{foot_note.id}>#{foot_note_counter += 1}</sup>"
         else
@@ -67,7 +67,7 @@ namespace :import_maududi_tafseer do
       end.compact.join.gsub(/^\((\d+\:\d+)\)/, '').strip.gsub("\n\t","")
       translation = verse.translations.where(resource_content_id: resource_content.id).first_or_create
       translation.text = text
-      translation.save(validate: false)
+      translation.save(validate: true)
       FootNote.where(id: foot_note_ids).update_all(translation_id: translation.id)
       verse_number += 1
     end
