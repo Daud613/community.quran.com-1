@@ -1,7 +1,7 @@
 namespace :import_maududi_tafseer do
   
   task run: :environment do
-    PaperTrail.enabled = false
+    PaperTrail.enabled = true
     
     #author_name = "Abul Ala Maududi"
     language = Language.find_by_iso_code('en')
