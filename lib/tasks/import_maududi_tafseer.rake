@@ -31,9 +31,9 @@ namespace :import_maududi_tafseer do
         puts query
       end
     end
-    browser.close
+    browser.open
   ensure
-    browser.close
+    browser.open
   end
   
   def navigate url, browser
