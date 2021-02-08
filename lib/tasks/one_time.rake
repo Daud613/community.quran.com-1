@@ -1736,10 +1736,10 @@ namespace :one_time do
     end
   end
 
-  task import_musfata_khitab_with_footnote: :environment do
+  task import_maududi_tafseer_with_footnote: :environment do
     PaperTrail.enabled = false
 
-    author = Author.where(name: 'Dr. Mustafa Khattab').first_or_create
+    author = Author.where(name: 'Tafheem-ul-Quran - Abul Ala Maududi').first_or_create
     language = Language.find_by_name 'English'
     data_source = DataSource.where(name: 'Quran.com').first_or_create
 
@@ -1755,7 +1755,7 @@ namespace :one_time do
                                                  resource_type: "content",
                                                  sub_type: "translation",
                                                  name: author.name,
-                                                 description: 'Dr. Mustafa Khattab, The Clear Quran(With Tafsir)',
+                                                 description: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran(With Tafsir)',
                                                  cardinality_type: "1_ayah",
                                                  language_id: language.id,
                                                  language_name: "english",
@@ -1767,8 +1767,8 @@ namespace :one_time do
                                                           author_name: author.name,
                                                           resource_type: "content",
                                                           sub_type: "footnote",
-                                                          name: 'Dr. Mustafa Khattab, The Clear Quran footnotes(With Tafsir)',
-                                                          description: 'Dr. Mustafa Khattab, The Clear Quran footnotes(With Tafsir)',
+                                                          name: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran footnotes(With Tafsir)',
+                                                          description: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran footnotes(With Tafsir)',
                                                           cardinality_type: "1_ayah",
                                                           language_id: language.id,
                                                           language_name: "english",
