@@ -1737,7 +1737,7 @@ namespace :one_time do
   end
 
   task import_musfata_khitab_with_footnote: :environment do
-    PaperTrail.enabled = true
+    PaperTrail.enabled = false
 
     author = Author.where(name: 'Dr. Mustafa Khattab').first_or_create
     language = Language.find_by_name 'English'
