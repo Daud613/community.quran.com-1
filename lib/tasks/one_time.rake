@@ -1743,7 +1743,7 @@ namespace :one_time do
     language = Language.find_by_name 'English'
     data_source = DataSource.where(name: 'Quran.com').first_or_create
 
-    url = "https://raw.githubusercontent.com/naveed-ahmad/Quran-text/master/clearquran-2019.html"
+    url = "https://islamicstudies.info/tafheem.php"
 
     text = open(url).read
     docs = Nokogiri.parse(text)
@@ -1755,7 +1755,7 @@ namespace :one_time do
                                                  resource_type: "content",
                                                  sub_type: "translation",
                                                  name: author.name,
-                                                 description: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran(With Tafsir)',
+                                                 description: 'Tafheem-ul-Quran - Abul Ala Maududi (With Tafsir)',
                                                  cardinality_type: "1_ayah",
                                                  language_id: language.id,
                                                  language_name: "english",
@@ -1767,8 +1767,8 @@ namespace :one_time do
                                                           author_name: author.name,
                                                           resource_type: "content",
                                                           sub_type: "footnote",
-                                                          name: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran footnotes(With Tafsir)',
-                                                          description: 'Tafheem-ul-Quran - Abul Ala Maududi, The Clear Quran footnotes(With Tafsir)',
+                                                          name: 'Tafheem-ul-Quran - Abul Ala Maududi footnotes(With Tafsir)',
+                                                          description: 'Tafheem-ul-Quran - Abul Ala Maududi footnotes(With Tafsir)',
                                                           cardinality_type: "1_ayah",
                                                           language_id: language.id,
                                                           language_name: "english",
