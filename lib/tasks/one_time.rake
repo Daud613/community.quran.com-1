@@ -1739,7 +1739,7 @@ namespace :one_time do
   task import_maududi_tafseer_with_footnote: :environment do
     PaperTrail.enabled = false
 
-    author = Author.where(name: 'Abul Ala Maududi').first_or_create
+    author = Author.where(name: 'Tafheem-ul-Quran - Abul Ala Maududi').first_or_create
     language = Language.find_by_name 'English'
     data_source = DataSource.where(name: 'Quran.com').first_or_create
 
