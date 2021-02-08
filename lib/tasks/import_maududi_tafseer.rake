@@ -4,7 +4,7 @@ namespace :import_maududi_tafseer do
     PaperTrail.enabled = false
     
     #author_name = "Abul Ala Maududi"
-    language = Language.find_by_iso_code('tha')
+    language = Language.find_by_iso_code('en')
     base_uri = "https://islamicstudies.info/tafheem.php"
     resource_content = ResourceContent.find(95) #Tafheem-ul-Quran - Abul Ala Maududi
     footnote_resource_content = ResourceContent.find 96
