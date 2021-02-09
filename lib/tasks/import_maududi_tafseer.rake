@@ -1,11 +1,11 @@
 namespace :import_maududi_tafseer do
   
   task run: :environment do
-    PaperTrail.enabled = false
+    PaperTrail.enabled = true
     
     author_name = "Abul Ala Maududi"
     language = Language.find_by_iso_code('en')
-    base_uri = "https://islamicstudies.info/tafheem.php"
+    base_url = "https://islamicstudies.info/tafheem.php"
     resource_content = ResourceContent.find(95) #Tafheem-ul-Quran - Abul Ala Maududi
     footnote_resource_content = ResourceContent.find(95)
     info_resource_content = ResourceContent.find(95)
@@ -13,12 +13,12 @@ namespace :import_maududi_tafseer do
     Translation.where(resource_content_id: resource_content.id).delete_all
     FootNote.where(resource_content_id: footnote_resource_content.id).delete_all
 
-    browser = ::Watir::Browser.new :chrome, headless: true
+    browser = ::Writer::Browser.new :chrome, headless: true
     
     1.upto(114) do |index|
       verse_number = 1
       query = "?sura=#{index}&verse=2"
-      url = base_uri + query
+      url = base_url + query
       puts query
       chapter = Chapter.find_by_chapter_number(index)
       page, next_page_query = navigate url, browser
@@ -31,9 +31,9 @@ namespace :import_maududi_tafseer do
         puts query
       end
     end
-    browser.close
+    browser.open
   ensure
-    browser.close
+    browser.open
   end
   
   def navigate url, browser
