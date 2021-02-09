@@ -3,12 +3,12 @@ namespace :import_maududi_tafseer do
   task run: :environment do
     PaperTrail.enabled = false
     
-    #author_name = "Abul Ala Maududi"
+    author_name = "Abul Ala Maududi"
     language = Language.find_by_iso_code('en')
     base_uri = "https://islamicstudies.info/tafheem.php"
     resource_content = ResourceContent.find(95) #Tafheem-ul-Quran - Abul Ala Maududi
-    footnote_resource_content = ResourceContent.find 96
-    #info_resource_content = ResourceContent.find 95
+    footnote_resource_content = ResourceContent.find(95)
+    info_resource_content = ResourceContent.find(95)
   
     Translation.where(resource_content_id: resource_content.id).delete_all
     FootNote.where(resource_content_id: footnote_resource_content.id).delete_all
@@ -40,7 +40,7 @@ namespace :import_maududi_tafseer do
     browser.goto url
     page = Nokogiri::HTML.parse(browser.html)
 
-    # docs = Nokogiri::HTML::DocumentFragment.parse(body)
+    docs = Nokogiri::HTML::DocumentFragment.parse(body)
 
     next_page_query = page.css("#next").children.css("a").first.attributes["href"].value
     return page, next_page_query
@@ -58,7 +58,7 @@ namespace :import_maududi_tafseer do
           tafseer_text = verse_data.css(".nt").children.css("p")[foot_note_counter].text.gsub("\n\t","").gsub(/^[0-9\.\s\-]+/, "") rescue nil
           return nil if tafseer_text.nil?
           foot_note = FootNote.new(text: tafseer_text,language: language, language_name: language.name.downcase, resource_content: footnote_resource_content)
-          foot_note.save(validate: false)
+          foot_note.save
           foot_note_ids << foot_note.id
           "<sup foot_note=#{foot_note.id}>#{foot_note_counter += 1}</sup>"
         else
@@ -67,11 +67,11 @@ namespace :import_maududi_tafseer do
       end.compact.join.gsub(/^\((\d+\:\d+)\)/, '').strip.gsub("\n\t","")
       translation = verse.translations.where(resource_content_id: resource_content.id).first_or_create
       translation.text = text
-      translation.save(validate: false)
+      translation.save
       FootNote.where(id: foot_note_ids).update_all(translation_id: translation.id)
       verse_number += 1
     end
     verse_number
   end
-  
+ 
 end
